@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Phone;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,7 +18,7 @@ class UserController extends Controller
     {
         $users = User::all();
         // dd($users);
-        return view('home', compact('users'));
+        return view('phonePage', compact('users'));
     }
 
     /**
@@ -26,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('addPhone');
     }
 
     /**
@@ -37,7 +39,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Phone::create([
+            'phone_number' => $request->phone_number,
+            'user_id' => Auth::id()
+        ]);
+
+        return view('home');
     }
 
     /**

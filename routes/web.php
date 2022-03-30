@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,5 +19,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', 'UserController@index');
-Route::get('/user/article/{id}', 'ArticleController@index');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/user/phone', 'UserController@index');
+    Route::middleware(['check.admin'])->group(function () {
+        Route::get('user/phone/create', 'UserController@create');
+        Route::post('/user/phone/store', 'UserController@store');
+        Route::get('/article/{id}', 'ArticleController@index');
+    });
+});
+
+
+Auth::routes();

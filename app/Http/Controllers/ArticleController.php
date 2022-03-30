@@ -18,7 +18,7 @@ class ArticleController extends Controller
         $articles = Article::with('user')->get();
         $user = User::find($id);
 
-        return view('/articleView', compact('articles', 'user'));
+        return view('articleView', compact('articles', 'user'));
     }
 
     /**
